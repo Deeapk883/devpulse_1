@@ -74,8 +74,8 @@ export const generateWeeklySummary = async (repoId) => {
                 author,
                 message,
                 committed_at,
-                additions,
-                deletions
+                COALESCE(additions, 0) as additions,
+                COALESCE(deletions, 0) as deletions
             FROM commits
             WHERE repo_id = ?
             AND committed_at >= ?
@@ -100,10 +100,10 @@ export const generateWeeklySummary = async (repoId) => {
                 review_time_minutes,
                 created_at,
                 merged_at,
-                additions,
-                deletions,
-                comments,
-                review_comments,
+                COALESCE(additions, 0) as additions,
+                COALESCE(deletions, 0) as deletions,
+                COALESCE(comments, 0) as comments,
+                COALESCE(review_comments, 0) as review_comments,
                 user,
                 reviewers
             FROM pull_requests

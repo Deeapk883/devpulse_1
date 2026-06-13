@@ -6,7 +6,8 @@ services:
     volumes:
       - ./server:/app
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
@@ -15,6 +16,7 @@ services:
       DB_NAME: devpulse
       DB_USE_CONTAINER: "true"
       CLIENT_URL: http://localhost:3000
+      NODE_ENV: development
     command: npm run dev
 
   mysql:
@@ -23,10 +25,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: devpulse
+      MYSQL_INITIALIZATIOM_COMMAND: "SET GLOBAL max_connections = 1000;"
     ports:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./server/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
 
 volumes:
   mysql_data:

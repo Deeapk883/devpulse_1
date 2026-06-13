@@ -48,6 +48,8 @@ CREATE TABLE IF NOT EXISTS commits (
     message LONGTEXT NOT NULL,
     author VARCHAR(255),
     committed_at DATETIME NOT NULL,
+    additions INT DEFAULT 0,
+    deletions INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (repo_id) REFERENCES repositories(id) ON DELETE CASCADE,
     UNIQUE KEY unique_repo_sha (repo_id, sha),
