@@ -7,6 +7,7 @@ import React, {
 import { AuthContext } from '../context/AuthContext';
 
 import axios from '../api/axiosInstance';
+import { API_URL } from '../config';
 
 import Layout from '../components/Layout';
 import RepoCard from '../components/RepoCard';
@@ -160,7 +161,7 @@ const Dashboard = () => {
         try {
 
             const response = await fetch(
-                'http://localhost:5000/api/protected',
+                `${API_URL}/api/protected`,
                 {
                     headers: {
                         Authorization:
