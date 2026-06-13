@@ -47,6 +47,7 @@ const RepositoryAnalytics = () => {
         ]).finally(() => {
             setLoading(false);
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [repoId]);
 
     const fetchRepoData = async () => {
@@ -161,7 +162,7 @@ const RepositoryAnalytics = () => {
     const generateAISummary = async () => {
         setGeneratingSummary(true);
         try {
-            const response = await axios.post(`/api/summaries/generate/${repoId}`);
+            await axios.post(`/api/summaries/generate/${repoId}`);
             alert('Summary generated successfully!');
             await fetchSummaries();
         } catch (error) {
